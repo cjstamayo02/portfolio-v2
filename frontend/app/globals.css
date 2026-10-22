@@ -37,7 +37,6 @@
   --chip: var(--chip-dark);
   --accent: var(--accent-dark);
 }
-
 * {
   box-sizing: border-box;
   margin: 0;
