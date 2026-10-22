@@ -8,17 +8,8 @@ use Illuminate\Support\Str;
 
 class BlogPost extends Model
 {
-    protected $fillable = [
-        'title',
-        'slug',
-        'cover_image',
-        'content',
-        'published_at',
-    ];
-
-    protected $casts = [
-        'published_at' => 'datetime',
-    ];
+    protected $fillable = ['title', 'slug', 'excerpt', 'cover_image', 'content', 'published_at'];
+    protected $casts = ['published_at' => 'datetime'];
 
     protected static function booted(): void
     {

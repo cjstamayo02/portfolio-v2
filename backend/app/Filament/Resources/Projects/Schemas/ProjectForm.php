@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Projects\Schemas;
 
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
@@ -16,31 +17,21 @@ class ProjectForm
     {
         return $schema->components([
             TextInput::make('title')->required()->maxLength(255),
-            TextInput::make('slug')
-                ->maxLength(255)
-                ->unique(ignoreRecord: true)
-                ->helperText('Leave blank to auto-generate from the title. This becomes the page URL: /projects/your-slug'),
-            Textarea::make('summary')
-                ->required()
-                ->rows(2)
-                ->helperText('One or two sentences shown on the project card.')
-                ->columnSpanFull(),
-            FileUpload::make('logo_or_screenshot')
-                ->image()
-                ->disk('s3')
-                ->directory('projects')
-                ->imageEditor(),
-            TagsInput::make('tech_stack')
-                ->placeholder('Type a technology and press Enter')
-                ->suggestions(['Laravel', 'PHP', 'MySQL', 'PostgreSQL', 'React', 'Next.js', 'Tailwind', 'REST API', 'Docker']),
+            TextInput::make('slug')->unique(ignoreRecord: true)->helperText('Leave blank to auto-generate.'),
+            Textarea::make('summary')->required()->rows(2)->columnSpanFull(),
+            Repeater::make('bullets')
+                ->simple(TextInput::make('bullet')->required())
+                ->addActionLabel('Add bullet')->reorderable()->columnSpanFull()
+                ->helperText('Short points shown on the project card.'),
+            FileUpload::make('logo_or_screenshot')->image()->disk('s3')->directory('projects')
+                ->visibility('private')->imageEditor(),
+            TagsInput::make('tech_stack')->placeholder('Type and press Enter'),
             TextInput::make('live_url')->url(),
             TextInput::make('repo_url')->url(),
-            Toggle::make('featured')->helperText('Featured projects are listed first.'),
+            Toggle::make('featured'),
             TextInput::make('sort_order')->numeric()->default(0),
-            RichEditor::make('description')
-                ->required()
-                ->helperText('The full case study shown on the project detail page.')
-                ->columnSpanFull(),
+            RichEditor::make('description')->disableToolbarButtons(['attachFiles'])
+                ->helperText('Optional full case study (the project detail page).')->columnSpanFull(),
         ]);
     }
 }

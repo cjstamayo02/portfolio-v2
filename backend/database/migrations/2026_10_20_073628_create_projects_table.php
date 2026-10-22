@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('slug')->unique();
             $table->text('summary');
-            $table->text('description');
+            $table->json('bullets')->nullable();                // short bullet points on the card
+            $table->longText('description')->nullable();        // optional case study page
             $table->string('logo_or_screenshot')->nullable();
             $table->json('tech_stack')->nullable();
             $table->string('live_url')->nullable();

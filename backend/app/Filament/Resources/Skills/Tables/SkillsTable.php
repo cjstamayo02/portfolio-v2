@@ -13,11 +13,8 @@ class SkillsTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->columns([
-                TextColumn::make('name')->searchable(),
-                TextColumn::make('category')->badge()->sortable(),
-            ])
-            ->defaultSort('category')
+            ->columns([TextColumn::make('name')->searchable(), TextColumn::make('category')->badge()->sortable()])
+            ->defaultSort('category')->reorderable('sort_order')
             ->filters([
                 //
             ])

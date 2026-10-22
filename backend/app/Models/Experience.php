@@ -7,20 +7,8 @@ use Illuminate\Support\Facades\Storage;
 
 class Experience extends Model
 {
-    protected $fillable = [
-        'company',
-        'role',
-        'company_logo',
-        'description',
-        'start_date',
-        'end_date',
-        'sort_order',
-    ];
-
-    protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
-    ];
+    protected $fillable = ['company', 'role', 'company_logo', 'description', 'start_date', 'end_date', 'sort_order'];
+    protected $casts = ['start_date' => 'date', 'end_date' => 'date'];
 
     public function getCompanyLogoUrlAttribute(): ?string
     {

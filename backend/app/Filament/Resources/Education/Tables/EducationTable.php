@@ -19,8 +19,7 @@ class EducationTable
                 TextColumn::make('start_year'),
                 TextColumn::make('end_year')->placeholder('Present'),
             ])
-            ->defaultSort('sort_order')
-            ->reorderable('sort_order')
+            ->defaultSort('sort_order')->reorderable('sort_order')
             ->filters([
                 //
             ])

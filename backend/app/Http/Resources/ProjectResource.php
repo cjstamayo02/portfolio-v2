@@ -16,10 +16,12 @@ class ProjectResource extends JsonResource
     {
         return [
             'title' => $this->title,
+            'slug' => $this->slug,
             'summary' => $this->summary,
+            'bullets' => $this->bullets ?? [],
             'description' => $this->description,
             'image_url' => $this->logo_or_screenshot_url,
-            'tech_stack' => $this->tech_stack,
+            'tech_stack' => $this->tech_stack ?? [],
             'live_url' => $this->live_url,
             'repo_url' => $this->repo_url,
             'featured' => $this->featured,

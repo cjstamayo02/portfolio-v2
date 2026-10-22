@@ -22,8 +22,6 @@ class EducationResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'education';
 
-    protected static ?int $navigationSort = 4;
-
     public static function form(Schema $schema): Schema
     {
         return EducationForm::configure($schema);

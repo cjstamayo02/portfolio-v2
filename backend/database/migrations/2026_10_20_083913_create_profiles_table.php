@@ -14,18 +14,28 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('headline');
+            $table->string('role_title')->nullable();           // browser tab title
+            $table->string('headline');                         // "Hi, I'm Christian."
+            $table->string('headline_accent')->nullable();      // "Laravel developer."
             $table->text('subheadline');
-            $table->longText('about')->nullable();
-            $table->string('avatar')->nullable();
-            $table->string('email');
             $table->string('location')->nullable();
+            $table->boolean('available')->default(true);
+            $table->string('availability_text')->default('Available for work');
+            $table->string('avatar')->nullable();               // hero photo
+            $table->string('about_image')->nullable();
+            $table->string('about_title')->default('A little about me');
+            $table->longText('about')->nullable();
+            $table->string('impact_title')->nullable();         // "Impact at Megaworld"
+            $table->json('stats')->nullable();                  // [{value,label}]
+            $table->json('impact')->nullable();                 // [{tag,text}]
+            $table->json('services')->nullable();               // [{icon,title,description}]
+            $table->json('how_i_work')->nullable();             // [{icon,title,description}]
+            $table->json('audiences')->nullable();              // [{title,points}]
+            $table->string('email');
+            $table->string('phone')->nullable();
             $table->string('github_url')->nullable();
             $table->string('linkedin_url')->nullable();
             $table->string('resume_url')->nullable();
-            $table->json('stats')->nullable();
-            $table->json('services')->nullable();
-            $table->json('work_with')->nullable();
             $table->timestamps();
         });
     }

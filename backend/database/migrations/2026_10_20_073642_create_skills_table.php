@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('category');
+            $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
     }

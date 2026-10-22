@@ -22,8 +22,6 @@ class ProfileResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'profile';
 
-    protected static ?int $navigationSort = 1;
-
     public static function form(Schema $schema): Schema
     {
         return ProfileForm::configure($schema);
@@ -32,11 +30,6 @@ class ProfileResource extends Resource
     public static function table(Table $table): Table
     {
         return ProfilesTable::configure($table);
-    }
-
-    public static function canCreate(): bool
-    {
-        return \App\Models\Profile::count() === 0;
     }
 
     public static function getRelations(): array
@@ -53,5 +46,10 @@ class ProfileResource extends Resource
             'create' => CreateProfile::route('/create'),
             'edit' => EditProfile::route('/{record}/edit'),
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+        return \App\Models\Profile::count() === 0;
     }
 }

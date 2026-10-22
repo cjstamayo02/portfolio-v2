@@ -21,9 +21,17 @@ class ExperiencesTable
                 TextColumn::make('start_date')->date('M Y'),
                 TextColumn::make('end_date')->date('M Y')->placeholder('Present'),
             ])
-            ->defaultSort('sort_order')
-            ->reorderable('sort_order')
-            ->recordActions([EditAction::make()])
-            ->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make()])]);
+            ->defaultSort('sort_order')->reorderable('sort_order')
+            ->filters([
+                //
+            ])
+            ->recordActions([
+                EditAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 }

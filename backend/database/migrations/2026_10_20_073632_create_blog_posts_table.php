@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug')->unique();
+            $table->text('excerpt')->nullable();                // shown on the blog card
             $table->string('cover_image')->nullable();
             $table->longText('content');
             $table->timestamp('published_at')->nullable();

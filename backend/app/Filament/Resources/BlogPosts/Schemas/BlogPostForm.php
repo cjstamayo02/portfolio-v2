@@ -2,10 +2,7 @@
 
 namespace App\Filament\Resources\BlogPosts\Schemas;
 
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\{DateTimePicker, FileUpload, RichEditor, Textarea, TextInput};
 use Filament\Schemas\Schema;
 
 class BlogPostForm
@@ -14,14 +11,11 @@ class BlogPostForm
     {
         return $schema->components([
             TextInput::make('title')->required()->maxLength(255),
-            TextInput::make('slug')
-                ->unique(ignoreRecord: true)
-                ->helperText('Leave blank to auto-generate from the title.'),
-            FileUpload::make('cover_image')
-                ->image()->disk('s3')->directory('blog')->imageEditor(),
-            DateTimePicker::make('published_at')
-                ->helperText('Leave blank to save as a draft. Set a date/time to publish.'),
-            RichEditor::make('content')->required()->columnSpanFull(),
+            TextInput::make('slug')->unique(ignoreRecord: true)->helperText('Blank = auto from title.'),
+            Textarea::make('excerpt')->rows(2)->helperText('Short summary for the blog card.')->columnSpanFull(),
+            FileUpload::make('cover_image')->image()->disk('s3')->directory('blog')->visibility('private'),
+            DateTimePicker::make('published_at')->helperText('Blank = draft (hidden). A past or current time = published.'),
+            RichEditor::make('content')->required()->disableToolbarButtons(['attachFiles'])->columnSpanFull(),
         ]);
     }
 }

@@ -3,13 +3,14 @@
 namespace App\Filament\Resources\Profiles\Schemas;
 
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+
 
 class ProfileForm
 {
@@ -18,52 +19,68 @@ class ProfileForm
         return $schema->components([
             Section::make('Hero')->schema([
                 TextInput::make('name')->required(),
-                TextInput::make('headline')->required()
-                    ->helperText('The big line at the top of your site.'),
-                Textarea::make('subheadline')->required()->rows(3)
-                    ->helperText('The short paragraph under the headline.'),
-                FileUpload::make('avatar')->image()->disk('s3')->directory('profile')->imageEditor(),
+                TextInput::make('role_title')->helperText('Shown in the browser tab, e.g. "Laravel Developer".'),
+                TextInput::make('headline')->required()->helperText('First line, e.g. "Hi, I\'m Christian."'),
+                TextInput::make('headline_accent')->helperText('Second line in the accent color, e.g. "Laravel developer."'),
+                Textarea::make('subheadline')->required()->rows(3)->columnSpanFull(),
+                TextInput::make('location')->placeholder('Malabon, Philippines'),
+                Toggle::make('available')->label('Show availability badge')->default(true),
+                TextInput::make('availability_text')->default('Available for work'),
+                FileUpload::make('avatar')->label('Hero photo (4:5 looks best)')
+                    ->image()->disk('s3')->directory('profile')->visibility('private')->imageEditor(),
             ])->columns(2),
 
-            Section::make('Stats')->schema([
-                Repeater::make('stats')
-                    ->schema([
-                        TextInput::make('value')->required()->placeholder('5+'),
-                        TextInput::make('label')->required()->placeholder('Years experience'),
-                    ])
-                    ->columns(2)
-                    ->defaultItems(0)
-                    ->addActionLabel('Add stat')
-                    ->reorderable(),
-            ]),
+            Section::make('Stats strip')->schema([
+                Repeater::make('stats')->schema([
+                    TextInput::make('value')->required()->placeholder('3+'),
+                    TextInput::make('label')->required()->placeholder('Years building production systems'),
+                ])->columns(2)->addActionLabel('Add stat')->reorderable()->defaultItems(0),
+            ])->collapsed(),
+
+            Section::make('Impact cards')->schema([
+                TextInput::make('impact_title')->placeholder('Impact at Megaworld'),
+                Repeater::make('impact')->schema([
+                    TextInput::make('tag')->required()->placeholder('OWNERSHIP'),
+                    Textarea::make('text')->required()->rows(2),
+                ])->addActionLabel('Add card')->reorderable()->defaultItems(0),
+            ])->collapsed(),
 
             Section::make('What I do')->schema([
-                Repeater::make('services')
-                    ->schema([
-                        TextInput::make('title')->required(),
-                        Textarea::make('description')->rows(2)->required(),
-                    ])
-                    ->defaultItems(0)
-                    ->addActionLabel('Add service')
-                    ->reorderable(),
-            ]),
-
-            Section::make('Who I work with')->schema([
-                TagsInput::make('work_with')
-                    ->placeholder('Type a name or industry and press Enter'),
-            ]),
+                Repeater::make('services')->schema([
+                    TextInput::make('icon')->placeholder('◱')->helperText('Any symbol or emoji.'),
+                    TextInput::make('title')->required(),
+                    Textarea::make('description')->required()->rows(2),
+                ])->addActionLabel('Add service')->reorderable()->defaultItems(0),
+            ])->collapsed(),
 
             Section::make('About')->schema([
-                RichEditor::make('about')->columnSpanFull(),
+                FileUpload::make('about_image')->image()->disk('s3')->directory('profile')
+                    ->visibility('private')->imageEditor(),
+                TextInput::make('about_title')->default('A little about me'),
+                RichEditor::make('about')->disableToolbarButtons(['attachFiles'])->columnSpanFull(),
+            ])->columns(2)->collapsed(),
+
+            Section::make('How I work')->schema([
+                Repeater::make('how_i_work')->schema([
+                    TextInput::make('icon')->placeholder('▧'),
+                    TextInput::make('title')->required(),
+                    Textarea::make('description')->required()->rows(2),
+                ])->addActionLabel('Add item')->reorderable()->defaultItems(0),
+            ])->collapsed(),
+
+            Section::make('Who I work with')->schema([
+                Repeater::make('audiences')->schema([
+                    TextInput::make('title')->required()->placeholder('Hiring a developer'),
+                    Textarea::make('points')->rows(5)->helperText('One bullet per line.'),
+                ])->addActionLabel('Add card')->reorderable()->defaultItems(0),
             ])->collapsed(),
 
             Section::make('Contact & links')->schema([
                 TextInput::make('email')->email()->required(),
-                TextInput::make('location'),
+                TextInput::make('phone'),
                 TextInput::make('github_url')->url(),
                 TextInput::make('linkedin_url')->url(),
-                TextInput::make('resume_url')->url()
-                    ->helperText('Link to your CV (e.g. a public Google Drive or Supabase file URL).'),
+                TextInput::make('resume_url')->url(),
             ])->columns(2),
         ]);
     }

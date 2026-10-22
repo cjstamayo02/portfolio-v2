@@ -9,7 +9,9 @@ class Project extends Model
 {
     protected $fillable = [
         'title',
+        'slug',
         'summary',
+        'bullets',
         'description',
         'logo_or_screenshot',
         'tech_stack',
@@ -19,10 +21,16 @@ class Project extends Model
         'sort_order',
     ];
 
-    protected $casts = [
-        'tech_stack' => 'array',
-        'featured' => 'boolean',
-    ];
+    protected $casts = ['bullets' => 'array', 'tech_stack' => 'array', 'featured' => 'boolean'];
+
+    protected static function booted(): void
+    {
+        static::saving(function (Project $p) {
+            if (empty($p->slug)) {
+                $p->slug = Str::slug($p->title);
+            }
+        });
+    }
 
     public function getLogoOrScreenshotUrlAttribute(): ?string
     {

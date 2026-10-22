@@ -22,8 +22,6 @@ class SkillResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'skill';
 
-    protected static ?int $navigationSort = 5;
-
     public static function form(Schema $schema): Schema
     {
         return SkillForm::configure($schema);
