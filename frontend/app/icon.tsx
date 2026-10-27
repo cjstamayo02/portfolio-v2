@@ -15,14 +15,13 @@ export default function Icon() {
         justifyContent: "center",
         background: "#1B3A6B",
         color: "#fff",
-        fontSize: 20,
+        fontSize: 28,
         fontWeight: 700,
-        letterSpacing: -1,
         borderRadius: 14,
         fontFamily: "sans-serif",
       }}
     >
-      CJST
+      CT
     </div>,
     size,
   );
