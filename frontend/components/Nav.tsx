@@ -7,8 +7,7 @@ export default function Nav({ name }: { name: string }) {
     <nav>
       <div className="wrap">
         <Link href="/" className="brand">
-          <div className="logo">{initials(name)}</div> {name}
-          {/* <div className="logo">CJST</div> {name} */}
+          <div className="logo">CJST</div> {name}
         </Link>
         <div className="navlinks">
           <Link href="/#work">Work</Link>
