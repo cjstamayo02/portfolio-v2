@@ -1,3 +1,4 @@
+import { initials } from "@/lib/format";
 import Img from "./Img";
 import RichText from "./RichText";
 import type { Profile } from "@/lib/types";
@@ -8,12 +9,14 @@ export default function About({ profile }: { profile: Profile }) {
     <section id="about">
       <div className="wrap">
         <div className="aboutgrid">
-          {profile.about_image_url && (
+          {profile.avatar_url ? (
             <Img
-              className="aboutimg"
-              src={profile.about_image_url}
+              className="heroimg"
+              src={profile.avatar_url}
               alt={profile.name}
             />
+          ) : (
+            <div className="heroimg imgph">{initials(profile.name)}</div>
           )}
           <div>
             <div className="eyebrow mono">About me</div>
